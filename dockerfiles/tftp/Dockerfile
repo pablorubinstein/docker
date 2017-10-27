@@ -20,6 +20,9 @@ COPY pxelinux.0.sample pxelinux.0
 COPY default.sample pxelinux.cfg/default
 COPY boot.cfg.sample esxi/boot.cfg
 
+ARG MY_IP
+RUN sed -i "s/MY_IP/$MY_IP/g" esxi/boot.cfg
+
 RUN rm /tmp/Vmware-ESXi-6.0.0-2494585-Custom-Cisco-6.0.0.3.iso
 
 EXPOSE 69/UDP

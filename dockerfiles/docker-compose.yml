@@ -1,0 +1,32 @@
+version: '3'
+
+services:
+  dhcp:
+    build:
+     context: dhcp
+     args:
+       - MY_IP=${MY_IP}
+       - MY_NETWORK=${MY_NETWORK}
+    ports:
+      - "67:67/udp"
+    network_mode: "host"
+
+  tftp:
+    depends_on:
+      - dhcp
+    build: 
+      context: tftp
+      args:
+        - MY_IP=${MY_IP}
+    ports:
+      - "69:69/udp"
+    network_mode: "host"
+
+  simplehttp:
+    depends_on:
+      - dhcp
+    build: simplehttp
+    ports:
+      - "8000:8000/tcp"
+    network_mode: "host"
+  

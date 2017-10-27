@@ -1,6 +1,0 @@
-DEFAULT install
-NOHALT 1
-
-LABEL install
-  KERNEL esxi/mboot.c32
-  APPEND -c esxi/boot.cfg

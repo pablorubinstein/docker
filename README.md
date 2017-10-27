@@ -1,19 +1,17 @@
-# docker containers to PXE boot and install an ESXi server
+You need to have `docker-compose` installed in your system (see https://docs.docker.com/compose/install/) 
 
-you need to make sure that you have no process/service running on ports 67/udp, 69/udp and 8000/tcp
+ 1. edit contents of pxe.env
+ 1. make sure you have internet access and run 
+ ```
+env $(cat pxe.env | xargs) docker-compose build
+ ```
+ This will build the 3 required images
+ 1. now change your network settings and set a static IP suing the same IP addres specified in pxe.env
+ 1. start the compose 
+ ```
+docker-compose up 
+ ```
+ You should now be able to PXE boot and install an ESXi on any vm that is in the same network (hint: set networking mode of PXE servre and target machine to 'internal')
 
-```
-docker build -t dhcp dhcp
-docker build -t tftp tftp
-docker build -t simplehttp simplehttp
 
-docker run -p 67:67/udp --net=host -t dhcp &
-docker run -p 69:69/udp --net=host -t tftp &
-docker run -p 8000:8000/tcp --net=host -t simplehttp &
-```
 
-you need to change the IP of your network interface to 192.168.1.2
-   ip 192.168.1.2 netmask 255.255.255.0 gateway 192.168.1.1
-now you should boot your PXE target and ESXi should get installed automagically :)
-
-if something goes wrong you can use tcpdump to see any problems

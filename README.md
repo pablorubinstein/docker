@@ -5,10 +5,10 @@ you need to make sure that you have no process/service running on ports 67/udp, 
 ```
 docker build -t dhcp dhcp
 docker build -t tftp tftp
-docker build -t simplehttpd httpd
+docker build -t simplehttp simplehttp
 
 docker run -p 67:67/udp --net=host -t dhcp &
-docker run -p 69:69/udp --net=host -v /var/lib/tftpboot:/var/lib/tftpboot -t tftp &
+docker run -p 69:69/udp --net=host -t tftp &
 docker run -p 8000:8000/tcp --net=host -t simplehttp &
 ```
 
